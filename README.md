@@ -2,7 +2,7 @@
 
 setup mysql using docker.
 
-Create users by logging into the container, and running
+Create users by logging into the database, and running
 
 ```mysql -u root -h 127.0.0.1 -p
 create user '<user>'@'%' identifed by '<password>';
