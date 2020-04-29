@@ -17,9 +17,7 @@ done
 [[ -d $CONF_DIR && -f $CONF_DIR/my.cnf ]] || echo "warning: no configuration file!" 1>&2
 
 # have to kill any mysqld processes running
-mysqldPID=$(ps -ef | grep [m]ysqld | awk '{ print $2 }')
-echo $mysqldPID
-[ "$mysqldPID" = "" ] || kill $mysqldPID
+stopContainer.sh
 
 # stop and remove existing container
 containerName=mysql1
