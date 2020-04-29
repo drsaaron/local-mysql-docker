@@ -34,4 +34,4 @@ docker run -p 3306:3306 --name=$containerName \
 	--mount type=bind,src=$LOG_DIR,dst=/var/log \
 	-e MYSQL_ROOT_PASSWORD=my-root-pass \
 	--user $(id -u):$(id -g) \
-        -d mysql:5.7
+        -d mysql
