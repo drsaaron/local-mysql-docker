@@ -16,6 +16,9 @@ done
 
 [[ -d $CONF_DIR && -f $CONF_DIR/my.cnf ]] || echo "warning: no configuration file!" 1>&2
 
+# root password. 
+rootPassword=$(pass Database/MySQL/local/root)
+
 # have to kill any mysqld processes running
 stopContainer.sh
 
@@ -30,6 +33,7 @@ docker run -p 3306:3306 --name=$containerName \
         --mount type=bind,src=$DATA_DIR,dst=/var/lib/mysql \
         --mount type=bind,src=$KEYRING_DIR,dst=/usr/local/mysql/mysql-keyring \
 	--mount type=bind,src=$LOG_DIR,dst=/var/log \
-	-e MYSQL_ROOT_PASSWORD=my-root-pass \
+	-e MYSQL_ROOT_PASSWORD=$rootPasssword \
+	--health-cmd="mysqladmin --user=root --password=$rootPassword ping 2>/dev/null || exit 1" \
 	--user $(id -u):$(id -g) \
         -d mysql
