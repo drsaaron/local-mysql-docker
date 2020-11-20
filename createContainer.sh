@@ -27,6 +27,10 @@ containerName=mysql1
 docker stop $containerName
 docker rm $containerName
 
+# tag image with today's date
+today=$(date '+%Y%m%d')
+docker tag mysql:latest mysql:$today
+
 # run the beast
 docker run -p 3306:3306 --name=$containerName \
         --mount type=bind,src=$CONF_DIR/my.cnf,dst=/etc/my.cnf \
@@ -36,4 +40,4 @@ docker run -p 3306:3306 --name=$containerName \
 	-e MYSQL_ROOT_PASSWORD=$rootPasssword \
 	--health-cmd="mysqladmin --user=root --password=$rootPassword ping 2>/dev/null || exit 1" \
 	--user $(id -u):$(id -g) \
-        -d mysql
+        -d mysql:$today
