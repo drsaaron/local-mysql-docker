@@ -1,5 +1,17 @@
 #! /bin/ksh
 
+while getopts :d: OPTION
+do
+    case $OPTION in
+	d)
+	    runDate=$OPTARG
+	    ;;
+	*)
+	    echo "invalid option $OPTION" 1>&2
+	    exit 1
+    esac
+done
+
 LOCAL_DIR=$(dirname $0)
 [ "$LOCAL_DIR" = "." ] && LOCAL_DIR=`pwd`
 
@@ -28,8 +40,18 @@ docker stop $containerName
 docker rm $containerName
 
 # tag image with today's date
-today=$(date '+%Y%m%d')
-docker tag mysql:latest mysql:$today
+if [ "$runDate" = "" ]
+then
+    today=$(date '+%Y%m%d')
+    docker tag mysql:latest mysql:$today
+else
+    if [ "$(docker images mysql | grep $runDate)" = "" ]
+    then
+	echo "image mysql:$runDate not found" 1>&2
+	exit 1
+    fi
+    today=$runDate
+fi
 
 # run the beast
 docker run -p 3306:3306 --name=$containerName \
