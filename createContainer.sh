@@ -1,4 +1,4 @@
-#! /bin/ksh
+#! /bin/sh
 
 while getopts :d: OPTION
 do
@@ -26,7 +26,7 @@ do
     [ -d $dir ] || mkdir $dir
 done
 
-[[ -d $CONF_DIR && -f $CONF_DIR/my.cnf ]] || echo "warning: no configuration file!" 1>&2
+[ -d $CONF_DIR -a -f $CONF_DIR/my.cnf ] || echo "warning: no configuration file!" 1>&2
 
 # root password. 
 rootPassword=$(pass Database/MySQL/local/root)
