@@ -19,9 +19,10 @@ CONF_DIR=$LOCAL_DIR/conf
 DATA_DIR=$LOCAL_DIR/data
 KEYRING_DIR=$LOCAL_DIR/keyring
 LOG_DIR=$LOCAL_DIR/log
+RUN_DIR=$LOCAL_DIR/run
 
 # ensure the folders exist
-for dir in $DATA_DIR $KEYRING_DIR $LOG_DIR
+for dir in $DATA_DIR $KEYRING_DIR $LOG_DIR $RUN_DIR
 do
     [ -d $dir ] || mkdir $dir
 done
@@ -59,6 +60,7 @@ docker run -p 3306:3306 --name=$containerName \
         --mount type=bind,src=$DATA_DIR,dst=/var/lib/mysql \
         --mount type=bind,src=$KEYRING_DIR,dst=/usr/local/mysql/mysql-keyring \
 	--mount type=bind,src=$LOG_DIR,dst=/var/log \
+	--mount type=bind,src=$RUN_DIR,dst=/var/run/mysqld \
 	-e MYSQL_ROOT_PASSWORD=$rootPasssword \
 	--health-cmd="mysqladmin --user=root --password=$rootPassword ping 2>/dev/null || exit 1" \
 	--user $(id -u):$(id -g) \
