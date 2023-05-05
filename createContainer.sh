@@ -64,4 +64,5 @@ docker run -p 3306:3306 --name=$containerName \
 	-e MYSQL_ROOT_PASSWORD=$rootPasssword \
 	--health-cmd="mysqladmin --user=root --password=$rootPassword ping 2>/dev/null || exit 1" \
 	--user $(id -u):$(id -g) \
+	--network qotd \
         -d mysql:$today
