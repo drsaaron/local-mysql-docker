@@ -56,7 +56,7 @@ fi
 
 # run the beast
 docker run -p 3306:3306 --name=$containerName \
-        --mount type=bind,src=$CONF_DIR/my.cnf,dst=/etc/my.cnf \
+        --mount type=bind,src=$CONF_DIR,dst=/etc/mysql/conf.d \
         --mount type=bind,src=$DATA_DIR,dst=/var/lib/mysql \
         --mount type=bind,src=$KEYRING_DIR,dst=/usr/local/mysql/mysql-keyring \
 	--mount type=bind,src=$LOG_DIR,dst=/var/log \
